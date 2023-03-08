@@ -4,7 +4,7 @@ import { deleteUser, getUser, updateUser } from '../controllers/userController.j
 
 const router = express.Router();
 
-router.get('/find/:id', verifyToken, getUser)
+router.get('/:id', verifyToken, getUser)
 router.put('/:id', verifyToken, updateUser)
 router.delete('/:id', verifyToken, deleteUser)
 

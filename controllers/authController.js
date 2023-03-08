@@ -1,15 +1,16 @@
 // import mongoose from "mongoose";
+// mongoose'u ana sayfada import ettigim icin burada import etmesem de olur
 import User from '../models/UserModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import asyncHandler from 'express-async-handler';
+// import asyncHandler from 'express-async-handler';
 
 import { createError } from "../error.js";
 
 // @desc Register new user
-// @route POST /api/auth/signup
+// @route POST /api/auth/register
 // @access Public
-export const signup = asyncHandler(async (req, res, next) => {
+export const register = async (req, res, next) => {
     // req frontend'den gelen data(yani istekler)
     // res frontend'e giden data(yani cevaplar)
 
@@ -27,17 +28,17 @@ export const signup = asyncHandler(async (req, res, next) => {
         const newUser = new User({ name, email, password: hashedPassword }); // user'i olusturuyoruz
 
         await newUser.save(); // oluturdugumuz user'i db'ye kaydediyoruz
-        res.status(200).send("User has been created!"); // response olarak bu mesaji donuyoruz. bu mesaji frontend'de yakalayabiliriz 
+        res.status(201).send("User has been created!"); // response olarak bu mesaji donuyoruz. bu mesaji frontend'de yakalayabiliriz 
     } catch (err) {
         next(err)
     }
-})
+}
 
 
 // @desc Authenticate a user
-// @route POST /api/auth/signin
+// @route POST /api/auth/login
 // @access Public
-export const signin = async (req, res, next) => {
+export const login = async (req, res, next) => {
     // req frontend'den gelen data(yani istekler)
     // res frontend'e giden data(yani cevaplar)
 
@@ -72,3 +73,13 @@ export const signin = async (req, res, next) => {
         next(err);
     }
 }
+
+export const logout = async (req, res) => {
+    res
+        .clearCookie("access_token", {
+            sameSite: "none",
+            secure: true,
+        })
+        .status(200)
+        .send("User has been logged out.");
+};

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
 import cookieParser from 'cookie-parser'
+import cors from "cors";
 
 import { connectDB } from './config/db.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
@@ -18,6 +19,8 @@ const app = express();
 // const app = express() yazdigim icin app.use yaziyorum
 
 const port = process.env.PORT
+
+// app.use(cors({ origin: "http://localhost:8080", credentials: true }));
 
 app.use(cookieParser())
 app.use(express.json())
